@@ -219,7 +219,7 @@ class FormDefinition(models.Model):
     count_fields.short_description = _('Fields')
 
     def __unicode__(self):
-        return self.title or self.name
+        return self.name or self.title
 
     def log(self, form):
         FormLog(form_definition=self, data=self.get_form_data(form)).save()
