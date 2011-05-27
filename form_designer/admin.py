@@ -164,7 +164,7 @@ class FormLogAdmin(admin.ModelAdmin):
         import xlwt
 
         response = HttpResponse(mimetype='application/ms-excel')
-        response['Content-Disposition'] = 'attachment; filename=%s.xls' % unicode(self.model._meta.verbose_name_plural)
+        response['Content-Disposition'] = 'attachment; filename=%s.xls' % unicode(self.model._meta.verbose_name_plural).replace(' ', '_')
         wb = xlwt.Workbook()
         ws = wb.add_sheet(unicode(self.model._meta.verbose_name_plural))
         if queryset is None:
