@@ -3,7 +3,7 @@ import os
 from django import forms
 from django.forms import widgets
 from django.conf import settings as django_settings
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext as _, get_language
 
 from form_designer import settings
 from form_designer.models import get_class, FormDefinitionField, FormDefinition
@@ -37,6 +37,8 @@ class FormDefinitionFieldInlineForm(forms.ModelForm):
 class FormDefinitionForm(forms.ModelForm):
     class Meta:
         model = FormDefinition
+        
+    form_language = forms.ChoiceField(label=_('Edit form in language'), choices=django_settings.LANGUAGES, initial=get_language)
 
     def _media(self):
         js = []
@@ -53,6 +55,7 @@ class FormDefinitionForm(forms.ModelForm):
                 'js/jquery-inline-collapsible.js',
                 'js/jquery-inline-fieldset-collapsible.js',
                 'js/jquery-inline-prepopulate-label.js',
+                'js/jquery-changelanguage.js'
             )])
         return forms.Media(js=js)
     media = property(_media)

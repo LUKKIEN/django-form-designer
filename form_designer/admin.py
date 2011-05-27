@@ -1,6 +1,6 @@
 import csv
 from django.contrib import admin
-from django.utils.translation import ugettext as _, ugettext_lazy
+from django.utils.translation import ugettext as _, ugettext_lazy, get_language, activate
 from django.conf.urls.defaults import patterns, url
 from django.contrib.admin.views.main import ChangeList
 from django.db.models import Count
@@ -39,6 +39,7 @@ class FormDefinitionFieldInline(admin.StackedInline):
 @L10n(FormDefinition)
 class FormDefinitionAdmin(admin.ModelAdmin):
     fieldsets = [
+        (_('Language'), {'fields': ['form_language']}),
         (_('Basic'), {'fields': ['name', 'method', 'action', 'title', 'allow_get_initial', 'log_data', 'success_redirect', 'success_clear']}),
         (_('Mail form'), {'fields': ['mail_to', 'mail_from', 'mail_subject'], 'classes': ['collapse']}),
         (_('Templates'), {'fields': ['message_template', 'form_template_name'], 'classes': ['collapse']}),
@@ -49,6 +50,38 @@ class FormDefinitionAdmin(admin.ModelAdmin):
     inlines = [
         FormDefinitionFieldInline,
     ]
+    
+    def add_view(self, request, form_url='', extra_context=None):
+        newl = request.GET.get('form_language', None)
+        if newl is None:
+            newl = request.session.get('form_designer_language', None)
+        else:
+            request.session['form_designer_language'] = newl
+        if newl is None:
+            return super(FormDefinitionAdmin, self).add_view(request, form_url, extra_context)
+        else:
+            oldl = get_language()
+            activate(newl)
+            try:
+                return super(FormDefinitionAdmin, self).add_view(request, form_url, extra_context)
+            finally:
+                activate(oldl)
+    
+    def change_view(self, request, object_id, extra_context=None):
+        newl = request.GET.get('form_language', None)
+        if newl is None:
+            newl = request.session.get('form_designer_language', None)
+        else:
+            request.session['form_designer_language'] = newl
+        if newl is None:
+            return super(FormDefinitionAdmin, self).change_view(request, object_id, extra_context)
+        else:
+            oldl = get_language()
+            activate(newl)
+            try:
+                return super(FormDefinitionAdmin, self).change_view(request, object_id, extra_context)
+            finally:
+                activate(oldl)
 
 class FormLogAdmin(admin.ModelAdmin):
     list_display = ('form_no_link', 'created', 'id', 'data_html')
