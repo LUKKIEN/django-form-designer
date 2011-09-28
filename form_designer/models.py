@@ -42,8 +42,9 @@ class FormDefinition(models.Model):
     error_message = models.CharField(_('Error message'), max_length=255, blank=True, null=True)
     submit_label = models.CharField(_('Submit button label'), max_length=255, blank=True, null=True)
     log_data = models.BooleanField(_('Log form data'), help_text=_('Logs all form submissions to the database.'), default=True)
-    success_redirect = models.BooleanField(_('Redirect after success'), default=False)
-    success_clear = models.BooleanField(_('Clear form after success'), default=True)
+    save_uploaded_files  = models.BooleanField(_('Save uploaded files'), help_text=_('Saves all uploaded files using server storage.'), default=True)
+    success_redirect = models.BooleanField(_('HTTP redirect after successful submission'), default=True)
+    success_clear = models.BooleanField(_('Clear form after successful submission'), default=True)
     allow_get_initial = models.BooleanField(_('Allow initial values via URL'), help_text=_('If enabled, you can fill in form fields by adding them to the query string.'), default=True)
     message_template = TemplateTextField(_('Message template'), help_text=_('Your form fields are available as template context. Example: "{{ message }}" if you have a field named `message`. To iterate over all fields, use the variable `data` (a list containing a dictionary for each form field, each containing the elements `name`, `label`, `value`).'), blank=True, null=True)
     form_template_name = models.CharField(_('Form template'), max_length=255, choices=settings.FORM_TEMPLATES, blank=True, null=True)
@@ -99,8 +100,6 @@ class FormDefinition(models.Model):
 
     def log(self, form):
         form_data = self.get_form_data(form)
-        #if self.mail_to:
-        #    form_data.append({'name': 'mail', 'label': 'mail', 'value': self.compile_message(form_data)})
         FormLog(form_definition=self, data=form_data).save()
 
     def string_template_replace(self, text, context_dict):
