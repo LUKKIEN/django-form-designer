@@ -12,6 +12,8 @@ def get_storage():
 
 def clean_files(form):
     for field in form.file_fields:
+        if not form.cleaned_data.has_key(field.name):
+            continue
         uploaded_file = form.cleaned_data[field.name]
         if not os.path.splitext(uploaded_file.name)[1].lstrip('.').lower() in  \
             app_settings.ALLOWED_FILE_TYPES:
