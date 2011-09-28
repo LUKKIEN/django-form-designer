@@ -35,8 +35,9 @@ class FormDefinitionFieldInline(admin.StackedInline):
 
 class FormDefinitionAdmin(admin.ModelAdmin):
     fieldsets = [
-        (_('Basic'), {'fields': ['name', 'method', 'action', 'title', 'allow_get_initial', 'log_data', 'success_redirect', 'success_clear']}),
-        (_('Mail form'), {'fields': ['mail_to', 'mail_from', 'mail_subject'], 'classes': ['collapse']}),
+        (_('Basic'), {'fields': ['name', 'method', 'action', 'title']}),
+        (_('Settings'), {'fields': ['allow_get_initial', 'log_data', 'success_redirect', 'success_clear', 'save_uploaded_files'], 'classes': ['collapse']}),
+        (_('Mail form'), {'fields': ['mail_to', 'mail_from', 'mail_subject', 'mail_uploaded_files'], 'classes': ['collapse']}),
         (_('Templates'), {'fields': ['message_template', 'form_template_name'], 'classes': ['collapse']}),
         (_('Messages'), {'fields': ['success_message', 'error_message', 'submit_label'], 'classes': ['collapse']}),
     ]
