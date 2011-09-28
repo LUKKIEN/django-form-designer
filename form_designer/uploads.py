@@ -15,12 +15,14 @@ def clean_files(form):
         if not form.cleaned_data.has_key(field.name):
             continue
         uploaded_file = form.cleaned_data[field.name]
+        if not uploaded_file:
+            continue
         if not os.path.splitext(uploaded_file.name)[1].lstrip('.').lower() in  \
             app_settings.ALLOWED_FILE_TYPES:
                 msg = _('This file type is not allowed.')
                 form._errors[field.name] = form.error_class([msg])
     return form.cleaned_data
-    
+
 
 def handle_uploaded_files(form_definition, form):
     files = []
@@ -31,8 +33,8 @@ def handle_uploaded_files(form_definition, form):
             uploaded_file = form.cleaned_data[field.name]
             root, ext = os.path.splitext(uploaded_file.name)
             filename = storage.get_available_name(
-                os.path.join(app_settings.FILE_STORAGE_DIR, 
-                form_definition.name, 
+                os.path.join(app_settings.FILE_STORAGE_DIR,
+                form_definition.name,
                 '%s_%s%s' % (root, secret_hash, ext)))
             storage.save(filename, uploaded_file)
             file_obj = StoredUploadedFile(filename)
@@ -45,7 +47,7 @@ class StoredUploadedFile(FieldFile):
     """
     A wrapper for uploaded files that is compatible to the FieldFile class, i.e.
     you can use instances of this class in templates just like you use the value
-    of FileFields (e.g. `{{ my_file.url }}`) 
+    of FileFields (e.g. `{{ my_file.url }}`)
     """
     def __init__(self, name):
         File.__init__(self, None, name)
@@ -55,7 +57,7 @@ class StoredUploadedFile(FieldFile):
     @property
     def storage(self):
         return get_storage()
-        
+
     def save(self, *args, **kwargs):
         raise NotImplementedError('Static files are read-only')
 
