@@ -52,11 +52,6 @@ Optional requirements
 
         JQUERY_URL = 'jquery/jquery-latest.js'
 
-Missing features
-----------------
-  
-* File upload fields should be implemented
-
 Dependencies
 ------------
 
