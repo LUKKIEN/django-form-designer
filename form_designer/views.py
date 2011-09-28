@@ -11,9 +11,12 @@ from django.contrib import messages
 from django.core.context_processors import csrf
 
 from form_designer.forms import DesignedForm
-from form_designer.models import FormDefinition
+from form_designer.models import FormDefinition, FormLog
 
-def process_form(request, form_definition, context={}, is_cms_plugin=False):
+def process_form(request, form_definition, extra_context={}, is_cms_plugin=False):
+    context = {}
+    if extra_context:
+        context.update(extra_context)
     success_message = form_definition.success_message or _('Thank you, the data was submitted successfully.')
     error_message = form_definition.error_message or _('The data could not be submitted, please try again.')
     message = None
