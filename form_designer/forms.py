@@ -41,14 +41,8 @@ class FormDefinitionForm(forms.ModelForm):
     form_language = forms.ChoiceField(label=_('Edit form in language'), choices=django_settings.LANGUAGES, initial=get_language)
 
     def _media(self):
-        js = []
-        if hasattr(django_settings, 'CMS_MEDIA_URL'):
-            # Use jQuery bundled with django_cms if installed
-            js.append(os.path.join(django_settings.CMS_MEDIA_URL, 'js/lib/jquery.js'))
-        elif hasattr(django_settings, 'JQUERY_URL'):
-            js.append(settings.MEDIA_URL + 'js/jquery.js')
-        js.extend(
-            ['%s%s' % (settings.MEDIA_URL, path) for path in (
+        js = ['%s%s' % (settings.MEDIA_URL, path) for path in [
+                'js/jquery.js',
                 'js/jquery-ui.js',
                 'js/jquery-inline-positioning.js',
                 'js/jquery-inline-rename.js',
@@ -56,6 +50,7 @@ class FormDefinitionForm(forms.ModelForm):
                 'js/jquery-inline-fieldset-collapsible.js',
                 'js/jquery-inline-prepopulate-label.js',
                 'js/jquery-changelanguage.js'
-            )])
+            ]
+        ]
         return forms.Media(js=js)
     media = property(_media)
