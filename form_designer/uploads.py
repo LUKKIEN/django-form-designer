@@ -31,6 +31,8 @@ def handle_uploaded_files(form_definition, form):
         secret_hash = hashlib.sha1(str(uuid.uuid4())).hexdigest()[:10]
         for field in form.file_fields:
             uploaded_file = form.cleaned_data[field.name]
+            if not uploaded_file:
+                continue
             root, ext = os.path.splitext(uploaded_file.name)
             filename = storage.get_available_name(
                 os.path.join(app_settings.FILE_STORAGE_DIR,
