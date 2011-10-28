@@ -252,7 +252,7 @@ class FormDefinition(models.Model):
             mail_subject = self.title
         
         import logging
-        logging.debug('Mail: '+repr(mail_from)+' --> '+repr(mail_to));
+        logging.info('Mail: '+repr(mail_from)+' --> '+repr(mail_to)); #TODO: change back to logging.debug
         
         from django.core.mail import EmailMessage
         message = EmailMessage(mail_subject, message, mail_from or None, mail_to)

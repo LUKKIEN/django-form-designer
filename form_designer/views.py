@@ -3,6 +3,7 @@ import random
 from datetime import datetime
 from os import path
 from os.path import join
+import logging
 
 from django.core.context_processors import csrf
 from django.shortcuts import get_object_or_404, render_to_response
@@ -33,6 +34,8 @@ class DesignedForm(forms.Form):
         self.fields[def_field.name] = eval(def_field.field_class)(**def_field.get_form_field_init_args())        
 
 def process_form(request, form_definition, context={}, is_cms_plugin=False):
+    logger = logging.getLogger('Form')
+
     success_message = form_definition.success_message or _('Thank you, the data was submitted successfully.')
     error_message = form_definition.error_message or _('The data could not be submitted, please try again.')
 
@@ -52,9 +55,13 @@ def process_form(request, form_definition, context={}, is_cms_plugin=False):
         
     if is_submit:
         if form.is_valid():
+
+            logger.info('process_form: mailing to {0}, from {1}, subject: {2}'.format(form_definition.mail_to, form_definition.mail_from, form_definition.mail_subject)) #TODO: remove this (only added to debug contact mailing issue on production
+
             # Handle file uploads
             files = []
             if hasattr(request, 'FILES'):
+                logger.info('process_form: adding {0} file{1}'.format(len(request.FILES), 's' if len(request.FILES) > 1 else '')) #TODO: remove this (only added to debug contact mailing issue on production
                 for file_key in request.FILES:
                     file_obj = request.FILES[file_key]
                     file_name = '%s.%s_%s' % (
@@ -82,6 +89,7 @@ def process_form(request, form_definition, context={}, is_cms_plugin=False):
             if form_definition.log_data:
                 form_definition.log(form)
             if form_definition.mail_to:
+                logger.info('process_form: sending mail') #TODO: remove this (only added to debug contact mailing issue on production
                 form_definition.send_mail(form, files)
             if form_definition.success_redirect and not is_cms_plugin:
                 # TODO Redirection does not work for cms plugin
