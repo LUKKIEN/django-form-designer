@@ -98,6 +98,8 @@ def process_form(request, form_definition, context={}, is_cms_plugin=False):
                 form = DesignedForm(form_definition) # clear form
         else:
             form_error = True
+            if form.errors:
+                error_message += ' ' + _('Please check the following field(s): ') + ', '.join(form.errors)
             if 'django_notify' in settings.INSTALLED_APPS:
                 request.notifications.error(error_message)
             else:
