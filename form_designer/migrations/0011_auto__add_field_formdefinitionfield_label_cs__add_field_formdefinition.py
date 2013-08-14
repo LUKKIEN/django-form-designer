@@ -7,28 +7,76 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
+        
+        # Adding field 'FormDefinitionField.label_cs'
+        db.add_column('form_designer_formdefinitionfield', 'label_cs', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True), keep_default=False)
+
         # Adding field 'FormDefinitionField.label_ru'
         db.add_column('form_designer_formdefinitionfield', 'label_ru', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True), keep_default=False)
+
+        # Adding field 'FormDefinitionField.initial_cs'
+        db.add_column('form_designer_formdefinitionfield', 'initial_cs', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True), keep_default=False)
+
         # Adding field 'FormDefinitionField.initial_ru'
         db.add_column('form_designer_formdefinitionfield', 'initial_ru', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True), keep_default=False)
+
+        # Adding field 'FormDefinitionField.help_text_cs'
+        db.add_column('form_designer_formdefinitionfield', 'help_text_cs', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True), keep_default=False)
+
         # Adding field 'FormDefinitionField.help_text_ru'
         db.add_column('form_designer_formdefinitionfield', 'help_text_ru', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True), keep_default=False)
+
+        # Adding field 'FormDefinitionField.choice_values_cs'
+        db.add_column('form_designer_formdefinitionfield', 'choice_values_cs', self.gf('django.db.models.fields.TextField')(null=True, blank=True), keep_default=False)
+
         # Adding field 'FormDefinitionField.choice_values_ru'
         db.add_column('form_designer_formdefinitionfield', 'choice_values_ru', self.gf('django.db.models.fields.TextField')(null=True, blank=True), keep_default=False)
+
+        # Adding field 'FormDefinitionField.choice_labels_cs'
+        db.add_column('form_designer_formdefinitionfield', 'choice_labels_cs', self.gf('django.db.models.fields.TextField')(null=True, blank=True), keep_default=False)
+
         # Adding field 'FormDefinitionField.choice_labels_ru'
         db.add_column('form_designer_formdefinitionfield', 'choice_labels_ru', self.gf('django.db.models.fields.TextField')(null=True, blank=True), keep_default=False)
+
+        # Adding field 'FormDefinition.title_cs'
+        db.add_column('form_designer_formdefinition', 'title_cs', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True), keep_default=False)
+
         # Adding field 'FormDefinition.title_ru'
         db.add_column('form_designer_formdefinition', 'title_ru', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True), keep_default=False)
+
+        # Adding field 'FormDefinition.mail_to_cs'
+        db.add_column('form_designer_formdefinition', 'mail_to_cs', self.gf('form_designer.template_field.TemplateCharField')(max_length=255, null=True, blank=True), keep_default=False)
+
         # Adding field 'FormDefinition.mail_to_ru'
         db.add_column('form_designer_formdefinition', 'mail_to_ru', self.gf('form_designer.template_field.TemplateCharField')(max_length=255, null=True, blank=True), keep_default=False)
+
+        # Adding field 'FormDefinition.mail_subject_cs'
+        db.add_column('form_designer_formdefinition', 'mail_subject_cs', self.gf('form_designer.template_field.TemplateCharField')(max_length=255, null=True, blank=True), keep_default=False)
+
         # Adding field 'FormDefinition.mail_subject_ru'
         db.add_column('form_designer_formdefinition', 'mail_subject_ru', self.gf('form_designer.template_field.TemplateCharField')(max_length=255, null=True, blank=True), keep_default=False)
+
+        # Adding field 'FormDefinition.success_message_cs'
+        db.add_column('form_designer_formdefinition', 'success_message_cs', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True), keep_default=False)
+
         # Adding field 'FormDefinition.success_message_ru'
         db.add_column('form_designer_formdefinition', 'success_message_ru', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True), keep_default=False)
+
+        # Adding field 'FormDefinition.error_message_cs'
+        db.add_column('form_designer_formdefinition', 'error_message_cs', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True), keep_default=False)
+
         # Adding field 'FormDefinition.error_message_ru'
         db.add_column('form_designer_formdefinition', 'error_message_ru', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True), keep_default=False)
+
+        # Adding field 'FormDefinition.submit_label_cs'
+        db.add_column('form_designer_formdefinition', 'submit_label_cs', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True), keep_default=False)
+
         # Adding field 'FormDefinition.submit_label_ru'
         db.add_column('form_designer_formdefinition', 'submit_label_ru', self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True), keep_default=False)
+
+        # Adding field 'FormDefinition.message_template_cs'
+        db.add_column('form_designer_formdefinition', 'message_template_cs', self.gf('form_designer.template_field.TemplateTextField')(null=True, blank=True), keep_default=False)
+
         # Adding field 'FormDefinition.message_template_ru'
         db.add_column('form_designer_formdefinition', 'message_template_ru', self.gf('form_designer.template_field.TemplateTextField')(null=True, blank=True), keep_default=False)
 
